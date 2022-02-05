@@ -66,8 +66,6 @@ public class Main {
                 String portfolioDetails[] = portfolioInformation.split(":");
 
                 for (int k = 0; k < portfolioDetails.length; k++) {
-                    portfolioInformationRetrieved = false;
-
                     switch (k) {
                         case 0:
                             //First portfolio position will contain the name of the portfolio as well as the position name
@@ -88,9 +86,6 @@ public class Main {
                             break;
                         case 2:
                             endDate = portfolioDetails[k];
-
-                            portfolioInformationRetrieved = true;
-
                             break;
                     }
 
