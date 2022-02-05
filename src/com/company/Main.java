@@ -101,9 +101,7 @@ public class Main {
                 portfolios.add(currentPortfolio);
             }
             System.out.println("get here");
-            for(int i =0; i <portfolios.size(); i++){
-                System.out.println(((ArrayList<Portfolio>) portfolios).get(i).toString());
-            }
+            System.out.println(Arrays.toString(portfolios.toArray()));
         }
         return portfolios;
     }
