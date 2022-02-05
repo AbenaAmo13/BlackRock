@@ -26,6 +26,10 @@ public class Main {
             this.endDate = endDate;
             this.positionOpen = false;
         }
+        @Override
+        public String toString() {
+            return portfolioName + ", " + positionName + ", " + startDate + ", " + endDate + ", " + positionOpen;
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -60,6 +64,7 @@ public class Main {
                 //This will split the portfolio information to position name, starting date and ending date.
                 String portfolioInformation = portfolioPositions[i];
                 String portfolioDetails[] = portfolioInformation.split(":");
+
                 for (int k = 0; k < portfolioDetails.length; k++) {
                     portfolioInformationRetrieved = false;
 
@@ -74,7 +79,7 @@ public class Main {
                                 //Get the positionName by getting the substring that comes after the index.
                                 portfolioPositionName = portfolioNameAndPosition.substring(portfolioNameIndex + 1);
                             } else {
-                                //Other information just contain the portfiliopositions
+                                //Other information just contain the portfolio positions
                                 portfolioPositionName = portfolioDetails[k];
                             }
                             break;
@@ -83,16 +88,21 @@ public class Main {
                             break;
                         case 2:
                             endDate = portfolioDetails[k];
+
                             portfolioInformationRetrieved = true;
 
                             break;
                     }
-                    //Once you have retrieved all the portfolio information make a portfolio object
-                    if (portfolioInformationRetrieved) {
-                        Portfolio currentPortfolio = new Portfolio(portfolioName, portfolioPositionName, startDate, endDate);
-                        portfolios.add(currentPortfolio);
-                    }
+
                 }
+                //Once you have retrieved all the information place them here.
+                Portfolio currentPortfolio = new Portfolio(portfolioName, portfolioPositionName, startDate, endDate);
+                //Add the portfolio object to the collection that is to be returned.
+                portfolios.add(currentPortfolio);
+            }
+            System.out.println("get here");
+            for(int i =0; i <portfolios.size(); i++){
+                System.out.println(((ArrayList<Portfolio>) portfolios).get(i).toString());
             }
         }
         return portfolios;
