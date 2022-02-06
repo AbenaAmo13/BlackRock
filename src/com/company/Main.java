@@ -36,68 +36,75 @@ public class Main {
         InputStreamReader reader = new InputStreamReader(System.in, StandardCharsets.UTF_8);
         BufferedReader in = new BufferedReader(reader);
 
-        //String dateString = in.readLine();
+        String dateString = in.readLine();
 
         //System.out.println(dateString);
         Collection<Portfolio> portfolios = Main.getPortfolios(in);
 
-        //Main.processInput(dateString, portfolios);
+        System.out.println("testing: Out of the loop");
+
+
+        Main.processInput(dateString, portfolios);
     }
 
     public static void processInput(String dateString, Collection<Portfolio> portfolios) {
         // Access your code here. Feel free to create other classes as required
+        System.out.println("Have reached here");
+        System.out.println("Getting right portfolio from" + Arrays.toString(portfolios.toArray()));
     }
-    private static Collection<Portfolio> getPortfolios(BufferedReader in) throws IOException {
-        String startDate = "";
-        String endDate = "";
-        String portfolioName = "";
-        String portfolioPositionName = "";
-        boolean portfolioInformationRetrieved = false;
-        Collection<Portfolio> portfolios = new ArrayList<Portfolio>();
-        // expand this class to read the portfolios. Feel free to create other classes as required
-        String line;
-        while ((line = in.readLine()) != null) {
-            //Date checkDate = new Date();
-            //Separate the lines by portfolio positions
-            String portfolioPositions[] = line.split(",");
-            for (int i = 0; i < portfolioPositions.length; i++) {
-                //This will split the portfolio information to position name, starting date and ending date.
-                String portfolioInformation = portfolioPositions[i];
-                String portfolioDetails[] = portfolioInformation.split(":");
-
-                for (int k = 0; k < portfolioDetails.length; k++) {
-                    switch (k) {
-                        case 0:
-                            //First portfolio position will contain the name of the portfolio as well as the position name
-                            // separated by a | hence should be a special case
-                            String portfolioNameAndPosition = portfolioDetails[k];
-                            int portfolioNameIndex = portfolioNameAndPosition.indexOf("|");
-                            if (portfolioNameIndex != -1) {
-                                portfolioName = portfolioNameAndPosition.substring(0, portfolioNameIndex);
-                                //Get the positionName by getting the substring that comes after the index.
-                                portfolioPositionName = portfolioNameAndPosition.substring(portfolioNameIndex + 1);
-                            } else {
-                                //Other information just contain the portfolio positions
-                                portfolioPositionName = portfolioDetails[k];
-                            }
-                            break;
-                        case 1:
-                            startDate = portfolioDetails[k];
-                            break;
-                        case 2:
-                            endDate = portfolioDetails[k];
-                            break;
+    private static Collection<Portfolio> getPortfolios(BufferedReader in)  {
+        Collection<Portfolio> retrievedPortfolios = new ArrayList<>();
+        try {
+            String startDate = "";
+            String endDate = "";
+            String portfolioName = "";
+            String portfolioPositionName = "";
+            int numberOfPortfolios=0;
+            boolean receivedAllPortfolios = false;
+            // expand this class to read the portfolios. Feel free to create other classes as required
+            String line= null;
+            while ((line = in.readLine()) != null  && !line.equals("")) {
+                //Separate the lines by portfolio positions
+                String portfolioPositions[] = line.split(",");
+                for (int i = 0; i < portfolioPositions.length; i++) {
+                    //This will split the portfolio information to position name, starting date and ending date.
+                    String portfolioInformation = portfolioPositions[i];
+                    String portfolioDetails[] = portfolioInformation.split(":");
+                    for (int k = 0; k < portfolioDetails.length; k++) {
+                        switch (k) {
+                            case 0:
+                                //First portfolio position will contain the name of the portfolio as well as the position name
+                                // separated by a | hence should be a special case
+                                String portfolioNameAndPosition = portfolioDetails[k];
+                                int portfolioNameIndex = portfolioNameAndPosition.indexOf("|");
+                                if (portfolioNameIndex != -1) {
+                                    portfolioName = portfolioNameAndPosition.substring(0, portfolioNameIndex);
+                                    //Get the positionName by getting the substring that comes after the index.
+                                    portfolioPositionName = portfolioNameAndPosition.substring(portfolioNameIndex + 1);
+                                } else {
+                                    //Other information just contain the portfolio positions
+                                    portfolioPositionName = portfolioDetails[k];
+                                }
+                                break;
+                            case 1:
+                                startDate = portfolioDetails[k];
+                                break;
+                            case 2:
+                                endDate = portfolioDetails[k];
+                                break;
+                        }
                     }
-
+                    //Once you have retrieved all the information place them here.
+                    Portfolio currentPortfolio = new Portfolio(portfolioName, portfolioPositionName, startDate, endDate);
+                    //Add the portfolio object to the collection that is to be returned.
+                    retrievedPortfolios.add(currentPortfolio);
                 }
-                //Once you have retrieved all the information place them here.
-                Portfolio currentPortfolio = new Portfolio(portfolioName, portfolioPositionName, startDate, endDate);
-                //Add the portfolio object to the collection that is to be returned.
-                portfolios.add(currentPortfolio);
             }
-            System.out.println("get here");
-            System.out.println(Arrays.toString(portfolios.toArray()));
+            //System.out.println("Gets out of the loop here");
+            System.out.println(Arrays.toString(retrievedPortfolios.toArray()));
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        return portfolios;
+        return retrievedPortfolios;
     }
 }
