@@ -26,6 +26,7 @@ public class Main {
             this.endDate = endDate;
             this.positionOpen = false;
         }
+
         @Override
         public String toString() {
             return portfolioName + ", " + positionName + ", " + startDate + ", " + endDate + ", " + positionOpen;
@@ -35,15 +36,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         InputStreamReader reader = new InputStreamReader(System.in, StandardCharsets.UTF_8);
         BufferedReader in = new BufferedReader(reader);
-
         String dateString = in.readLine();
-
-        //System.out.println(dateString);
         Collection<Portfolio> portfolios = Main.getPortfolios(in);
-
-        System.out.println("testing: Out of the loop");
-
-
         Main.processInput(dateString, portfolios);
     }
 
@@ -52,18 +46,19 @@ public class Main {
         System.out.println("Have reached here");
         System.out.println("Getting right portfolio from" + Arrays.toString(portfolios.toArray()));
     }
-    private static Collection<Portfolio> getPortfolios(BufferedReader in)  {
+
+    private static Collection<Portfolio> getPortfolios(BufferedReader in) {
         Collection<Portfolio> retrievedPortfolios = new ArrayList<>();
         try {
             String startDate = "";
             String endDate = "";
             String portfolioName = "";
             String portfolioPositionName = "";
-            int numberOfPortfolios=0;
+            int numberOfPortfolios = 0;
             boolean receivedAllPortfolios = false;
             // expand this class to read the portfolios. Feel free to create other classes as required
-            String line= null;
-            while ((line = in.readLine()) != null  && !line.equals("")) {
+            String line = null;
+            while ((line = in.readLine()) != null && !line.equals("")) {
                 //Separate the lines by portfolio positions
                 String portfolioPositions[] = line.split(",");
                 for (int i = 0; i < portfolioPositions.length; i++) {
@@ -102,7 +97,7 @@ public class Main {
             }
             //System.out.println("Gets out of the loop here");
             System.out.println(Arrays.toString(retrievedPortfolios.toArray()));
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return retrievedPortfolios;
